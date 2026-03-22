@@ -6,29 +6,7 @@ on:
       - 'v*'
 
 jobs:
-  build-deb:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libgtksourceview-3.0-dev devscripts debhelper
-      
-      - name: Build DEB package
-        run: |
-          rm -f debian/install
-          dpkg-buildpackage -us -uc -b
-          mv ../*.deb .
-      
-      - name: Upload DEB artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: cat-cpp-ide-deb
-          path: "*.deb"
-
-  build-snap:
+  build:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
@@ -38,40 +16,34 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libgtk-3-dev libgtksourceview-3.0-dev
       
-      - name: Install snapcraft
-        run: sudo snap install snapcraft --classic
+      - name: Build
+        run: make
       
-      - name: Build Snap
-        run: snapcraft pack --destructive-mode
-      
-      - name: Upload Snap artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: cat-cpp-ide-snap
-          path: "*.snap"
-
-  release:
-    needs: [build-deb, build-snap]
-    runs-on: ubuntu-22.04
-    if: always() && (needs.build-deb.result == 'success' || needs.build-snap.result == 'success')
-    steps:
-      - name: Download DEB
-        if: needs.build-deb.result == 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: cat-cpp-ide-deb
-      
-      - name: Download Snap
-        if: needs.build-snap.result == 'success'
-        uses: actions/download-artifact@v4
-        with:
-          name: cat-cpp-ide-snap
+      - name: Create DEB package
+        run: |
+          mkdir -p pkg/DEBIAN
+          mkdir -p pkg/usr/bin
+          mkdir -p pkg/usr/share/applications
+          mkdir -p pkg/usr/share/icons/hicolor/48x48/apps
+          
+          cp cat-cpp-ide pkg/usr/bin/
+          cp cat-cpp-ide.desktop pkg/usr/share/applications/
+          cp cat-cpp-ide.png pkg/usr/share/icons/hicolor/48x48/apps/
+          
+          echo "Package: cat-cpp-ide" > pkg/DEBIAN/control
+          echo "Version: 1.0.1" >> pkg/DEBIAN/control
+          echo "Section: devel" >> pkg/DEBIAN/control
+          echo "Priority: optional" >> pkg/DEBIAN/control
+          echo "Architecture: amd64" >> pkg/DEBIAN/control
+          echo "Maintainer: oemoem12" >> pkg/DEBIAN/control
+          echo "Description: Simple C++ IDE for beginners" >> pkg/DEBIAN/control
+          echo "Depends: libgtk-3-0, libgtksourceview-3.0-1, g++" >> pkg/DEBIAN/control
+          
+          dpkg-deb --build pkg cat-cpp-ide_1.0.1_amd64.deb
       
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: |
-            *.deb
-            *.snap
+          files: cat-cpp-ide_1.0.1_amd64.deb
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
