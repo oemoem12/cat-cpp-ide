@@ -1,0 +1,14 @@
+#!/usr/bin/make -f
+%:
+	dh $@
+
+override_dh_auto_build:
+	$(CC) `pkg-config --cflags gtk+-3.0 gtksourceview-3.0` -o cat-cpp-ide src/main.c `pkg-config --libs gtk+-3.0 gtksourceview-3.0`
+
+override_dh_auto_install:
+	install -d $(CURDIR)/debian/cat-cpp-ide/usr/bin
+	install -m 755 cat-cpp-ide $(CURDIR)/debian/cat-cpp-ide/usr/bin/
+	install -d $(CURDIR)/debian/cat-cpp-ide/usr/share/applications
+	install -m 644 cat-cpp-ide.desktop $(CURDIR)/debian/cat-cpp-ide/usr/share/applications/
+	install -d $(CURDIR)/debian/cat-cpp-ide/usr/share/icons/hicolor/48x48/apps
+	install -m 644 cat-cpp-ide.png $(CURDIR)/debian/cat-cpp-ide/usr/share/icons/hicolor/48x48/apps/

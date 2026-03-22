@@ -1,0 +1,43 @@
+name: cat-cpp-ide
+version: '1.0.0'
+summary: Simple and easy-to-use C++ IDE
+description: |
+  Cat C++ IDE is a lightweight C++ IDE designed for beginners and students.
+  Features:
+  - Syntax highlighting
+  - One-click compile and run
+  - No configuration needed
+  - Perfect for learning C++
+
+grade: stable
+confinement: classic
+base: core24
+
+apps:
+  cat-cpp-ide:
+    command: bin/cat-cpp-ide
+    desktop: usr/share/applications/cat-cpp-ide.desktop
+
+parts:
+  cat-cpp-ide:
+    plugin: make
+    source: .
+    build-packages:
+      - gcc
+      - libgtk-3-dev
+      - libgtksourceview-3.0-dev
+    stage-packages:
+      - libgtk-3-0t64
+      - libgtksourceview-3.0-1
+      - g++
+    override-build: |
+      craftctl default
+      mkdir -p $CRAFT_PART_INSTALL/bin
+      cp cat-cpp-ide $CRAFT_PART_INSTALL/bin/
+      mkdir -p $CRAFT_PART_INSTALL/usr/share/applications
+      cp cat-cpp-ide.desktop $CRAFT_PART_INSTALL/usr/share/applications/
+      mkdir -p $CRAFT_PART_INSTALL/usr/share/icons/hicolor/48x48/apps
+      cp cat-cpp-ide.png $CRAFT_PART_INSTALL/usr/share/icons/hicolor/48x48/apps/
+    prime:
+      - -usr/share/doc
+      - -usr/share/man

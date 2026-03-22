@@ -1,0 +1,7 @@
+kitten-cpp
+*.o
+*.deb
+*.snap
+*.changes
+*.buildinfo
+debian/kitten-cpp/

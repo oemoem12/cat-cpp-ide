@@ -1,0 +1,18 @@
+name: cat-cpp-ide
+version: 1.0.0
+summary: Simple and easy-to-use C++ IDE
+description: |
+  Cat C++ IDE is a lightweight C++ IDE designed for beginners and students.
+  Features:
+  - Syntax highlighting
+  - One-click compile and run
+  - No configuration needed
+  - Perfect for learning C++
+architectures:
+- amd64
+base: core24
+apps:
+  cat-cpp-ide:
+    command: bin/cat-cpp-ide
+confinement: classic
+grade: stable

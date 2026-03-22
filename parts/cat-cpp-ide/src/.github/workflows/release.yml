@@ -1,0 +1,68 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-deb:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-3-dev libgtksourceview-3.0-dev devscripts debhelper
+      
+      - name: Build DEB package
+        run: |
+          dpkg-buildpackage -us -uc
+          mv ../*.deb .
+      
+      - name: Upload DEB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cat-cpp-ide-deb
+          path: "*.deb"
+
+  build-snap:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install snapcraft
+        run: sudo snap install snapcraft --classic
+      
+      - name: Build Snap
+        run: snapcraft pack
+      
+      - name: Upload Snap artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cat-cpp-ide-snap
+          path: "*.snap"
+
+  release:
+    needs: [build-deb, build-snap]
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Download DEB
+        uses: actions/download-artifact@v4
+        with:
+          name: cat-cpp-ide-deb
+      
+      - name: Download Snap
+        uses: actions/download-artifact@v4
+        with:
+          name: cat-cpp-ide-snap
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            *.deb
+            *.snap
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
