@@ -2,7 +2,7 @@
 
 A simple, lightweight C++ IDE for beginners and students.
 
-![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)
 
 ## Features
@@ -16,15 +16,9 @@ A simple, lightweight C++ IDE for beginners and students.
 
 ## Installation
 
-### Ubuntu (Snap)
-
-```bash
-snap install cat-cpp-ide
-```
-
 ### Ubuntu/Debian (DEB Package)
 
-Download from [GitHub Releases](https://github.com/yourusername/cat-cpp-ide/releases) and install:
+Download from [Releases](https://github.com/oemoem12/cat-cpp-ide/releases) and install:
 
 ```bash
 sudo dpkg -i cat-cpp-ide_1.0.0-1_amd64.deb
@@ -38,7 +32,7 @@ sudo apt-get install -f
 sudo apt install libgtk-3-dev libgtksourceview-3.0-dev g++
 
 # Clone and build
-git clone https://github.com/yourusername/cat-cpp-ide.git
+git clone https://github.com/oemoem12/cat-cpp-ide.git
 cd cat-cpp-ide
 make
 
@@ -65,7 +59,7 @@ Main editor window with syntax highlighting and output panel.
 
 ## License
 
-MIT License - feel free to use, modify, and distribute.
+GPL 3.0 License - feel free to use, modify, and distribute.
 
 ## Contributing
 
