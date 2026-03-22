@@ -1,0 +1,8 @@
+Package: cat-cpp-ide
+Version: 1.0.5
+Section: devel
+Priority: optional
+Architecture: amd64
+Maintainer: oemoem12
+Description: Simple C++ IDE for beginners
+Depends: libgtk-3-0, libgtksourceview-3.0-1, g++
