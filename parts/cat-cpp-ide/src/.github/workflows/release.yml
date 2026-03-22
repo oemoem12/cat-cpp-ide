@@ -8,8 +8,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
-    env:
-      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       
@@ -36,16 +34,7 @@ jobs:
           cp cat-cpp-ide.desktop pkg/usr/share/applications/
           cp cat-cpp-ide.png pkg/usr/share/icons/hicolor/48x48/apps/
           
-          cat > pkg/DEBIAN/control << EOF
-          Package: cat-cpp-ide
-          Version: ${{ steps.version.outputs.VERSION }}
-          Section: devel
-          Priority: optional
-          Architecture: amd64
-          Maintainer: oemoem12
-          Description: Simple C++ IDE for beginners
-          Depends: libgtk-3-0, libgtksourceview-3.0-1, g++
-          EOF
+          printf 'Package: cat-cpp-ide\nVersion: %s\nSection: devel\nPriority: optional\nArchitecture: amd64\nMaintainer: oemoem12\nDescription: Simple C++ IDE for beginners\nDepends: libgtk-3-0, libgtksourceview-3.0-1, g++\n' "${{ steps.version.outputs.VERSION }}" > pkg/DEBIAN/control
           
           dpkg-deb --build pkg cat-cpp-ide_${{ steps.version.outputs.VERSION }}_amd64.deb
       
