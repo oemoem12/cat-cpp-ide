@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - uses: actions/checkout@v4
       
@@ -34,19 +36,21 @@ jobs:
           cp cat-cpp-ide.desktop pkg/usr/share/applications/
           cp cat-cpp-ide.png pkg/usr/share/icons/hicolor/48x48/apps/
           
-          echo "Package: cat-cpp-ide" > pkg/DEBIAN/control
-          echo "Version: ${{ steps.version.outputs.VERSION }}" >> pkg/DEBIAN/control
-          echo "Section: devel" >> pkg/DEBIAN/control
-          echo "Priority: optional" >> pkg/DEBIAN/control
-          echo "Architecture: amd64" >> pkg/DEBIAN/control
-          echo "Maintainer: oemoem12" >> pkg/DEBIAN/control
-          echo "Description: Simple C++ IDE for beginners" >> pkg/DEBIAN/control
-          echo "Depends: libgtk-3-0, libgtksourceview-3.0-1, g++" >> pkg/DEBIAN/control
+          cat > pkg/DEBIAN/control << EOF
+          Package: cat-cpp-ide
+          Version: ${{ steps.version.outputs.VERSION }}
+          Section: devel
+          Priority: optional
+          Architecture: amd64
+          Maintainer: oemoem12
+          Description: Simple C++ IDE for beginners
+          Depends: libgtk-3-0, libgtksourceview-3.0-1, g++
+          EOF
           
           dpkg-deb --build pkg cat-cpp-ide_${{ steps.version.outputs.VERSION }}_amd64.deb
       
       - name: Upload Release Asset
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: cat-cpp-ide_${{ steps.version.outputs.VERSION }}_amd64.deb
         env:
