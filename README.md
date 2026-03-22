@@ -16,15 +16,6 @@ A simple, lightweight C++ IDE for beginners and students.
 
 ## Installation
 
-### Ubuntu/Debian (DEB Package)
-
-Download from [Releases](https://github.com/oemoem12/cat-cpp-ide/releases) and install:
-
-```bash
-sudo dpkg -i cat-cpp-ide_1.0.0-1_amd64.deb
-sudo apt-get install -f
-```
-
 ### Build from Source
 
 ```bash
