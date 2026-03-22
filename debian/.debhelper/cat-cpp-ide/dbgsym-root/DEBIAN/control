@@ -1,0 +1,13 @@
+Package: cat-cpp-ide-dbgsym
+Package-Type: ddeb
+Source: cat-cpp-ide
+Version: 1.0.0-1
+Auto-Built-Package: debug-symbols
+Architecture: amd64
+Maintainer: Your Name <your.email@example.com>
+Installed-Size: 21
+Depends: cat-cpp-ide (= 1.0.0-1)
+Section: debug
+Priority: optional
+Description: debug symbols for cat-cpp-ide
+Build-Ids: f9f7f033767802722b2cf82319bbffbdcde7e8cb

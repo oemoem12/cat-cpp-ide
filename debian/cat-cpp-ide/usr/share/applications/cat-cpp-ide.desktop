@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.0
+Name=Cat C++ IDE
+Comment=Simple C++ IDE
+Exec=cat-cpp-ide %F
+Icon=${SNAP}/usr/share/icons/hicolor/48x48/apps/cat-cpp-ide.png
+Terminal=false
+Type=Application
+Categories=Development;IDE;
+MimeType=text/x-c++src;
+Keywords=c++;ide;development;
