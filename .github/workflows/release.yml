@@ -1,12 +1,9 @@
-name: Build
+name: Release
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    tags:
+      - 'v*'
 
 jobs:
   build:
@@ -22,6 +19,38 @@ jobs:
       - name: Build
         run: make
 
-      - name: Test
+      - name: Get version
+        id: version
         run: |
-          ./cat-cpp-ide --version 2>&1 || echo "Build successful"
+          VERSION=${GITHUB_REF#refs/tags/}
+          VERSION=${VERSION#v}
+          echo "VERSION=${VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Create DEB package
+        run: |
+          mkdir -p pkg/DEBIAN
+          mkdir -p pkg/usr/bin
+          mkdir -p pkg/usr/share/applications
+          mkdir -p pkg/usr/share/icons/hicolor/48x48/apps
+
+          cp cat-cpp-ide pkg/usr/bin/
+          cp cat-cpp-ide.desktop pkg/usr/share/applications/
+          cp cat-cpp-ide.png pkg/usr/share/icons/hicolor/48x48/apps/
+
+          printf 'Package: cat-cpp-ide\nVersion: %s\nSection: devel\nPriority: optional\nArchitecture: amd64\nMaintainer: oemoem12\nDescription: Simple C++ IDE for beginners\nDepends: libgtk-3-0, libgtksourceview-3.0-1, g++\n' "${{ steps.version.outputs.VERSION }}" > pkg/DEBIAN/control
+
+          dpkg-deb --build pkg cat-cpp-ide_${{ steps.version.outputs.VERSION }}_amd64.deb
+
+      - name: Upload to Release
+        run: |
+          VERSION=${{ steps.version.outputs.VERSION }}
+          DEB_FILE="cat-cpp-ide_${VERSION}_amd64.deb"
+
+          UPLOAD_URL=$(curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/repos/${{ github.repository }}/releases/tags/v${VERSION}" | \
+            python3 -c "import sys,json; print(json.load(sys.stdin)['upload_url'].replace('{?name,label}',''))")
+
+          curl -s -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Content-Type: application/vnd.debian.binary-package" \
+            --data-binary "@${DEB_FILE}" \
+            "${UPLOAD_URL}?name=${DEB_FILE}"
