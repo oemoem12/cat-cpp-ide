@@ -22,6 +22,8 @@ Cat C++ IDE provides a simple, intuitive interface for learning and practicing C
 
 ## Installation
 
+### You can install from .deb in releases
+
 ### Build from Source
 
 ```bash
