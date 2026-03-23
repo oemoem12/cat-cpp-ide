@@ -1,60 +1,77 @@
 # Cat C++ IDE
 
-A simple, lightweight C++ IDE for beginners and students.
+A lightweight, beginner-friendly C++ IDE designed for students and new programmers.
 
 ![License](https://img.shields.io/badge/license-GPL%203.0-blue.svg)
 ![Platform](https://img.shields.io/badge/platform-Linux-orange.svg)
+![Build Status](https://github.com/oemoem12/cat-cpp-ide/actions/workflows/build.yml/badge.svg)
+
+## Overview
+
+Cat C++ IDE provides a simple, intuitive interface for learning and practicing C++ programming. It eliminates the complexity of traditional IDEs while offering essential features for effective coding.
 
 ## Features
 
-- **Syntax Highlighting** - Beautiful Solarized Light theme for C++ code
-- **One-click Compile & Run** - No configuration needed, just write and run
-- **Line Numbers** - Easy code navigation
-- **Output Panel** - View compile errors and program output instantly
-- **Auto Indentation** - Smart code formatting
-- **Bracket Matching** - Highlight matching brackets
+- **Syntax Highlighting** - Professional Solarized Light theme with clear C++ syntax coloring
+- **One-click Compile & Run** - No configuration needed, just write code and execute
+- **Integrated Output Panel** - Instantly view compile errors and program output
+- **Line Numbers** - Easy code navigation and reference
+- **Auto Indentation** - Smart formatting for clean, readable code
+- **Bracket Matching** - Highlight matching braces and parentheses
+- **Simple Interface** - Clean, distraction-free design focused on learning
 
 ## Installation
 
 ### Build from Source
 
 ```bash
-# Install dependencies
+# Install dependencies (Ubuntu/Debian)
 sudo apt install libgtk-3-dev libgtksourceview-3.0-dev g++
 
-# Clone and build
+# Clone repository
 git clone https://github.com/oemoem12/cat-cpp-ide.git
 cd cat-cpp-ide
-make
 
-# Install
+# Build and install
+make
 sudo make install
 ```
 
 ## Usage
 
-1. Open Cat C++ IDE from application menu or run `cat-cpp-ide`
-2. Write your C++ code
-3. Click **Run** button (or use menu) to compile and execute
-4. View output in the bottom panel
+1. **Launch the IDE** - From application menu or run `cat-cpp-ide` in terminal
+2. **Write code** - Type your C++ program in the editor
+3. **Compile & Run** - Click the **Run** button or use the menu (File → Run)
+4. **View output** - Check results in the bottom output panel
 
 ## Requirements
 
-- GTK3
+- GTK3 (3.24+)
 - GtkSourceView 3
-- g++ compiler
+- g++ compiler (GCC 9+ recommended)
+- Linux operating system
 
 ## Screenshots
 
-Main editor window with syntax highlighting and output panel.
+![Cat C++ IDE Screenshot](https://github.com/oemoem12/cat-cpp-ide/assets/12345678/your-screenshot-path)
+
+*Main editor window with syntax highlighting and output panel*
 
 ## License
 
-GPL 3.0 License - feel free to use, modify, and distribute.
+This project is licensed under the **GPL 3.0 License** - see the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
-Pull requests are welcome! Feel free to submit issues and feature requests.
+Contributions are welcome!
+
+- **Bug reports** and **feature requests** - Open an issue
+- **Code contributions** - Submit a pull request
+
+## Getting Help
+
+- Check the [GitHub Issues](https://github.com/oemoem12/cat-cpp-ide/issues) page for common questions
+- Feel free to open a new issue for any problems or suggestions
 
 ---
 
